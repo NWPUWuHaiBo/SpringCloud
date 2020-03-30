@@ -27,13 +27,14 @@ public class OrderController {
     public CommonResult<Payment> create(Payment payment) {
         // restTemplate.postForObject(String url,Class<T>)
         // 第一个参数是请求的地址
-        //        // 第二个参数是实体类
-        //        // 第三个参数是返回值对象
+        // // 第二个参数是实体类
+        // // 第三个参数是返回值对象
         return restTemplate.postForObject(PAYMENT_URL + "/payment/create/", payment, CommonResult.class);
     }
 
     @GetMapping("/consumer/payment/get/{id}")
     public CommonResult<Payment> get(@PathVariable("id") Long id) {
+
         return restTemplate.getForObject(PAYMENT_URL + "/payment/get/" + id, CommonResult.class);
     }
 }

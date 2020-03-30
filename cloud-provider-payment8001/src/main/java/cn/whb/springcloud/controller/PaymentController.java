@@ -3,6 +3,7 @@ package cn.whb.springcloud.controller;
 import cn.whb.springcloud.entities.CommonResult;
 import cn.whb.springcloud.entities.Payment;
 import cn.whb.springcloud.service.PaymentService;
+import io.micrometer.core.instrument.util.TimeUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author haiboWu
@@ -46,6 +48,16 @@ public class PaymentController {
         return new CommonResult(444,"插入数据库失败",null);
     }
 
+    @GetMapping(value = "payment/timeout")
+    public  CommonResult showTimeOut(){
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return new CommonResult(200,"睡觉成功"+serverPort,null);
+    }
+
     @GetMapping(value = "payment/get/{id}")
     public CommonResult getPaymentById(@PathVariable("id") Long id) {
         Payment payment = paymentService.getPaymentById(id);
@@ -68,5 +80,4 @@ public class PaymentController {
         }
         return this.discoveryClient;
     }
-
 }
